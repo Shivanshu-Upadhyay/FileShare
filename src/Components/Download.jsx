@@ -4,10 +4,12 @@ import download from 'downloadjs'
 import {useParams} from 'react-router-dom'
 import baseUrl from './config'
 import { useEffect } from 'react'
+
 function Download() {
   const {uuid} = useParams()
   const [fileDetail,setFileDetail] = useState('')
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
  useEffect(()=>{
   const fetchFile = async()=>{
     setLoading(true)
@@ -20,8 +22,10 @@ function Download() {
   
 const downloadFIle = async(e)=>{
   e.preventDefault()
+  setLoading2(true);
   const {data} =  await axios.get(`${baseUrl}/api/file/download/${uuid}`,{responseType:"blob"})
-  return download(data)
+  setLoading2(false);
+  return download(data) 
 }
   return (
     <div className="uploadSection">
@@ -56,7 +60,7 @@ const downloadFIle = async(e)=>{
         
           <div className="action">
             <a href='#/' className="action-button" onClick={downloadFIle} download>
-             Download File
+            {loading2? <span className="loader2">Downloading</span>:"Download File"}
               <lottie-player
                 src="https://assets5.lottiefiles.com/private_files/lf30_a5ghwfwe.json"
                 background="transparent"

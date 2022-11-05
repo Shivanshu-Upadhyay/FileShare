@@ -9,6 +9,7 @@ function Upload() {
   const [uuid, setUuid] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const onFileSelect = async (e) => {
     e.preventDefault();
     try {
@@ -52,6 +53,7 @@ function Upload() {
           theme: "light",
         });
       }
+      setLoading2(true);
       const formData = {
         url: downloadUrl,
         sendTo: toEmail,
@@ -62,6 +64,7 @@ function Upload() {
         `${baseUrl}/api/sendFileEmail`,
         formData
       );
+
       toast(data.message, {
         position: "top-right",
         autoClose: 5000,
@@ -72,6 +75,7 @@ function Upload() {
         progress: undefined,
         theme: "light",
       });
+      setLoading2(false);
     } catch (error) {
       toast("Somthing Went Wrong", {
         type: "error",
@@ -154,7 +158,7 @@ function Upload() {
             </div>
             <div className="action">
               <button className="action-button" type="submit">
-                Send Mail
+              {loading2? <span className="loader2">Sending</span>:"Send Mail"}
                 <lottie-player
                   src="https://assets4.lottiefiles.com/packages/lf20_folnmvzi.json"
                   background="transparent"
