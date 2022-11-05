@@ -16,7 +16,7 @@ function Upload() {
     formData.append("myFile", e.target.files[0]);
     const { data } = await axios.post(`${baseUrl}/api/fileUpload`, formData);
     setUuid(data.file);
-    setDownloadUrl(`http://localhost:3000/file/download/${data.file}`);
+    setDownloadUrl(`https://fileshareonline.netlify.app/file/download/${data.file}`);
     setLoading(false)
   };
   const handleSubmit = async (e) => {
