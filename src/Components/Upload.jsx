@@ -117,7 +117,7 @@ function Upload() {
                 onClick={() => navigator.clipboard.writeText(downloadUrl)}
               >
                 {loading ? (
-                  <span class="loader"></span>
+                  <span className="loader"></span>
                 ) : (
                   <lottie-player
                     src="https://assets1.lottiefiles.com/private_files/lf30_cwe7aish.json"

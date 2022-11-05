@@ -7,10 +7,13 @@ import { useEffect } from 'react'
 function Download() {
   const {uuid} = useParams()
   const [fileDetail,setFileDetail] = useState('')
+  const [loading, setLoading] = useState(false);
  useEffect(()=>{
   const fetchFile = async()=>{
+    setLoading(true)
     const {data} =  await axios.get(`${baseUrl}/api/getfile/${uuid}`)
     setFileDetail(data.foundFile);
+    setLoading(false)
   }
   fetchFile()
  },[])
@@ -36,6 +39,7 @@ const downloadFIle = async(e)=>{
         </div>
         <form className="card-form">
         <div className='fileDownloadeBox'>
+        {loading? <span className="loader"></span>:<div className='fileDownloadeBox'>
         <h5 className="card-heading" >{fileDetail?.fileName}</h5>
         <lottie-player
                 src="https://assets5.lottiefiles.com/packages/lf20_6gadk1by.json"
@@ -46,6 +50,8 @@ const downloadFIle = async(e)=>{
                 autoplay
               />
               <h5 className="card-heading">{Math.round(fileDetail?.size/1000)}kb</h5>
+        </div>}
+        
         </div>
         
           <div className="action">
