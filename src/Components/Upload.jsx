@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import {toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import axios from "axios";
 import baseUrl from "./config";
 function Upload() {
@@ -11,46 +11,19 @@ function Upload() {
   const [loading, setLoading] = useState(false);
   const onFileSelect = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    const formData = new FormData();
-    formData.append("myFile", e.target.files[0]);
-    const { data } = await axios.post(`${baseUrl}/api/fileUpload`, formData);
-    setUuid(data.file);
-    setDownloadUrl(`https://fileshareonline.netlify.app/file/download/${data.file}`);
-    setLoading(false)
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
-      if(!downloadUrl){
-        return toast("First Upload File", {
-          type:"error",
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          });
-      }
-     const formData = {url: downloadUrl,sendTo:toEmail,sendFrom:fromEmail,uuid}
-    const {data} = await axios.post(`${baseUrl}/api/sendFileEmail`,formData)
-    toast(data.message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      });
-  
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("myFile", e.target.files[0]);
+      const { data } = await axios.post(`${baseUrl}/api/fileUpload`, formData);
+      setUuid(data.file);
+      setDownloadUrl(
+        `https://fileshareonline.netlify.app/file/download/${data.file}`
+      );
+      setLoading(false);
     } catch (error) {
       toast("Somthing Went Wrong", {
-        type:"error",
+        type: "error",
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -59,9 +32,60 @@ function Upload() {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
+      });
+      setLoading(false);
     }
-  }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!downloadUrl) {
+        return toast("First Upload File", {
+          type: "error",
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      const formData = {
+        url: downloadUrl,
+        sendTo: toEmail,
+        sendFrom: fromEmail,
+        uuid,
+      };
+      const { data } = await axios.post(
+        `${baseUrl}/api/sendFileEmail`,
+        formData
+      );
+      toast(data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      toast("Somthing Went Wrong", {
+        type: "error",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
   return (
     <div className="uploadSection">
       <div className="container">
@@ -80,7 +104,6 @@ function Upload() {
           <input type="file" id="fileUpload" onChange={onFileSelect} />
           <form className="card-form" onSubmit={handleSubmit}>
             <div className="inputNew">
-            
               <input
                 type="text"
                 className="input-field"
@@ -88,21 +111,23 @@ function Upload() {
                 required
                 readOnly
               />
-              
+
               <div
                 className="copyBtn"
                 onClick={() => navigator.clipboard.writeText(downloadUrl)}
               >
-              {loading?<span class="loader"></span>:<lottie-player
-                  src="https://assets1.lottiefiles.com/private_files/lf30_cwe7aish.json"
-                  background="transparent"
-                  speed="1"
-                  style={{ width: "50px", height: "50px" }}
-                  loop
-                  autoplay
-                />}
-              
-              
+                {loading ? (
+                  <span class="loader"></span>
+                ) : (
+                  <lottie-player
+                    src="https://assets1.lottiefiles.com/private_files/lf30_cwe7aish.json"
+                    background="transparent"
+                    speed="1"
+                    style={{ width: "50px", height: "50px" }}
+                    loop
+                    autoplay
+                  />
+                )}
               </div>
             </div>
             <div className="emailChoiceText">
