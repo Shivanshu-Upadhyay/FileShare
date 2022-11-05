@@ -24,8 +24,8 @@ const downloadFIle = async(e)=>{
   e.preventDefault()
   setLoading2(true);
   const {data} =  await axios.get(`${baseUrl}/api/file/download/${uuid}`,{responseType:"blob"})
+  download(data) 
   setLoading2(false);
-  return download(data) 
 }
   return (
     <div className="uploadSection">
